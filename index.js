@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 function getFrame(index, cb) {
-  fs.readFile(`output_frames/${index}.txt`, 'utf8', (err, data) => {
+  fs.readFile(`${__dirname}/output_frames/${index}.txt`, 'utf8', (err, data) => {
     if (data) {
       cb(null, data);
     } else {
