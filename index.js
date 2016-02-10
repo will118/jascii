@@ -27,3 +27,5 @@ function jascii(stream) {
     });
   })(1);
 }
+
+module.exports = jascii;
