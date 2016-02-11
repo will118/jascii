@@ -43,9 +43,9 @@ function jascii(stream) {
   })(globalSceneIndex, 1);
 }
 
-//http.createServer(function(request, response) {
-//  response.setHeader('Transfer-Encoding', 'chunked');
-//  jascii(response);
-//}).listen(3000);
+http.createServer(function(request, response) {
+  response.setHeader('Transfer-Encoding', 'chunked');
+  jascii(response);
+}).listen(3000);
 
 module.exports = jascii;
