@@ -11,8 +11,8 @@ const outputPath = 'output_frames';
     path: imagePath,
     pxWidth: 1,
     size: {
-      width: 70,
-      height: 40
+      width: 80,
+      height: 30
     }
   };
 

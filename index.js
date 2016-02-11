@@ -1,7 +1,14 @@
 const fs = require('fs');
+const http = require('http');
 
-function getFrame(index, cb) {
-  fs.readFile(`${__dirname}/output_frames/${index}.txt`, 'utf8', (err, data) => {
+const scenes = [
+  'tree_frames',
+  'snake_frames'
+];
+
+function getFrame(sceneIndex, index, cb) {
+  const folder = scenes[sceneIndex];
+  fs.readFile(`${__dirname}/${folder}/${index}.txt`, 'utf8', (err, data) => {
     if (data) {
       cb(null, data);
     } else {
@@ -10,22 +17,35 @@ function getFrame(index, cb) {
   });
 }
 
+var globalSceneIndex = 0;
+
 function jascii(stream) {
   stream.write('\033[2J');
   stream.write('\033[200B');
   stream.write('\033[2H');
 
-  (function loop(index) {
-    getFrame(index, (err, frame) => {
+  globalSceneIndex++;
+
+  if (globalSceneIndex == scenes.length) {
+    globalSceneIndex = 0;
+  }
+
+  (function loop(sceneIndex, index) {
+    getFrame(sceneIndex, index, (err, frame) => {
       if (frame) {
         stream.write('\033[2H');
         stream.write(frame);
-        setTimeout(loop, 66, index + 1);
+        setTimeout(loop, 66, sceneIndex, index + 1);
       } else {
-        loop(1);
+        loop(sceneIndex, 1);
       }
     });
-  })(1);
+  })(globalSceneIndex, 1);
 }
+
+//http.createServer(function(request, response) {
+//  response.setHeader('Transfer-Encoding', 'chunked');
+//  jascii(response);
+//}).listen(3000);
 
 module.exports = jascii;
