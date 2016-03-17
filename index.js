@@ -1,51 +1,7 @@
-const fs = require('fs');
 const http = require('http');
+const jascii = require('./ascii');
 
-const scenes = [
-  'tree_frames',
-  'snake_frames'
-];
-
-function getFrame(sceneIndex, index, cb) {
-  const folder = scenes[sceneIndex];
-  fs.readFile(`${__dirname}/${folder}/${index}.txt`, 'utf8', (err, data) => {
-    if (data) {
-      cb(null, data);
-    } else {
-      cb(err);
-    }
-  });
-}
-
-var globalSceneIndex = 0;
-
-function jascii(stream) {
-  stream.write('\033[2J');
-  stream.write('\033[200B');
-  stream.write('\033[2H');
-
-  globalSceneIndex++;
-
-  if (globalSceneIndex == scenes.length) {
-    globalSceneIndex = 0;
-  }
-
-  (function loop(sceneIndex, index) {
-    getFrame(sceneIndex, index, (err, frame) => {
-      if (frame) {
-        stream.write('\033[2H');
-        stream.write(frame);
-        setTimeout(loop, 66, sceneIndex, index + 1);
-      } else {
-        loop(sceneIndex, 1);
-      }
-    });
-  })(globalSceneIndex, 1);
-}
-
-//http.createServer(function(request, response) {
-//  response.setHeader('Transfer-Encoding', 'chunked');
-//  jascii(response);
-//}).listen(3000);
-
-module.exports = jascii;
+http.createServer((request, response) => {
+  response.setHeader('Transfer-Encoding', 'chunked');
+  jascii(response);
+}).listen(3000);
