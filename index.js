@@ -11,7 +11,7 @@ http.createServer((request, response) => {
     if (query.h && query.w) {
       caca(query.h - 3, query.w, response);
     } else {
-      response.write('curl "crap.tech/?w=$(tput cols)&h=$(tput lines)"');
+      response.write('curl "crap.tech/caca?w=$(tput cols)&h=$(tput lines)"');
       response.end();
     }
   } else {
