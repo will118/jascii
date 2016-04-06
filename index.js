@@ -18,7 +18,3 @@ http.createServer((request, response) => {
     ascii(response);
   }
 }).listen(3000, 'localhost');
-
-http.createServer((request, response) => {
-  response.setHeader('Transfer-Encoding', 'chunked');
-}).listen(3000);
