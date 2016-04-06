@@ -40,6 +40,7 @@ function playFrames(processedFrameDir, response) {
           if (data) {
             response.write('\033[2H');
             response.write(data);
+            cache[index] = data;
             setTimeout(loop, DELAY_BETWEEN_FRAMES, nextIndex, cache);
           } else {
             throw err;
