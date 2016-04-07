@@ -1,21 +1,62 @@
 const fs = require('fs');
 const spawn = require('child_process').spawn;
 
-const INPUT_FRAME_DIR = 'snake_png_frames';
+const INPUT_FRAME_DIRS = [
+  {
+    name: 'running',
+    folder: 'running_frames',
+    widthPercentage: 80,
+    gamma: 0.31
+  },
+  {
+    name: 'snake',
+    folder: 'snake_frames',
+    gamma: 0.20
+  },
+  {
+    name: 'eye_morph',
+    folder: 'eye_morph_frames',
+    widthPercentage: 80,
+    gamma: 0.80
+  },
+  {
+    name: 'smiley',
+    folder: 'smiley_frames',
+    widthPercentage: 70,
+    gamma: 0.30
+  },
+  {
+    name: 'purple',
+    folder: 'purple_frames',
+    widthPercentage: 65,
+    gamma: 0.50
+  }
+];
+
+var globalSceneIndex = 0;
+
 const OUTPUT_ROOT_DIR = 'processed_frames';
 const DELAY_BETWEEN_FRAMES = 66;
 
 function run(height, width, response) {
   console.log({height, width});
-  const folderName = `${height}x${width}`;
-  const processedFrameDir = `${OUTPUT_ROOT_DIR}/${folderName}`;
+
+  const input = INPUT_FRAME_DIRS[globalSceneIndex];
+  const processedFrameDir = `${OUTPUT_ROOT_DIR}/${input.name}-${height}x${width}`;
+
+  globalSceneIndex++;
+
+  if (globalSceneIndex == INPUT_FRAME_DIRS.length) {
+    globalSceneIndex = 0;
+  }
+
   fs.stat(processedFrameDir, (err, stat) => {
     if (stat) {
       console.log('Already have frames');
       playFrames(processedFrameDir, response);
     } else {
       console.log('Generating frames');
-      processFrames(height, width, INPUT_FRAME_DIR, processedFrameDir, response);
+      processFrames(height, width, input, processedFrameDir, response);
     }
   });
 }
@@ -24,6 +65,7 @@ function playFrames(processedFrameDir, response) {
   response.write('\033[2J');
   response.write('\033[200B');
   response.write('\033[2H');
+  response.write('\033[?25l');
 
   fs.readdir(processedFrameDir, (err, allFiles) => {
     if (err) throw err;
@@ -51,24 +93,28 @@ function playFrames(processedFrameDir, response) {
   });
 }
 
-function processFrames(height, width, inputFrameDir, processedFrameDir, response) {
+function processFrames(height, width, input, processedFrameDir, response) {
   fs.mkdir(processedFrameDir, err => {
     if (err) throw err;
-    fs.readdir(inputFrameDir, (err, allFiles) => {
+    fs.readdir(input.folder, (err, allFiles) => {
       if (err) throw err;
       const total = allFiles.length;
       (function loop(files) {
         const file = files.shift();
         if (file) {
+          const wPercent = input.widthPercentage;
+          const adjustedWidth = wPercent ? (wPercent / 100) * width : width;
           const img2txt = spawn(
             'img2txt',
             [
               `--height=${height}`,
-              `--width=${width}`,
-              '--brightness=10',
-              '-f',
-              'utf8',
-              `${inputFrameDir}/${file}`
+              `--width=${adjustedWidth}`,
+              '--brightness=10.0',
+              '--contrast=1.0',
+              `--gamma=${input.gamma}`,
+              '--dither=fstein',
+              '--format=ansi',
+              `${input.folder}/${file}`
             ]
           );
           const fileName = file.match(/(.+)\./)[1];
@@ -83,7 +129,7 @@ function processFrames(height, width, inputFrameDir, processedFrameDir, response
         } else {
           playFrames(processedFrameDir, response);
         }
-      })(allFiles);
+      })(allFiles.filter(file => file != '.DS_Store')); // mac so kool
     });
   });
 }
