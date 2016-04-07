@@ -16,7 +16,7 @@ http.createServer((request, response) => {
       response.write('Eh');
       response.end();
     }
-  } else if (request.url.indexOf('cursor-as-a-service') > -1) {
+  } else if (request.url.indexOf('cursor') > -1) {
     response.write('Here you go\n');
     response.write('\033[?25h');
     response.end();
