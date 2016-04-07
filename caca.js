@@ -24,12 +24,6 @@ const INPUT_FRAME_DIRS = [
     folder: 'smiley_frames',
     widthPercentage: 70,
     gamma: 0.30
-  },
-  {
-    name: 'purple',
-    folder: 'purple_frames',
-    widthPercentage: 65,
-    gamma: 0.50
   }
 ];
 
