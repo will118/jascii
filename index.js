@@ -1,6 +1,9 @@
 const http = require('http');
 const url = require('url');
 const caca = require('./caca');
+const fs = require('fs');
+
+const weedScript = fs.readFileSync('script.sh', 'utf8');
 
 http.createServer((request, response) => {
   response.setHeader('Transfer-Encoding', 'chunked');
@@ -11,11 +14,14 @@ http.createServer((request, response) => {
       response.write('Nice try\n');
       response.end();
     } else if (query.h && query.w) {
-      caca(query.h - 2, query.w, response);
+      caca(query.h - 2, query.w, query.override, response);
     } else {
       response.write('Eh');
       response.end();
     }
+  } else if (request.url.indexOf('weed') > -1) {
+    response.write(weedScript);
+    response.end();
   } else if (request.url.indexOf('cursor') > -1) {
     response.write('Here you go\n');
     response.write('\033[?25h');

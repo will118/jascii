@@ -27,22 +27,36 @@ const INPUT_FRAME_DIRS = [
   }
 ];
 
+const EXTRA_SCENES = {
+  'weed': {
+    name: 'weed',
+    folder: 'weed_frames',
+    widthPercentage: 70,
+    gamma: 0.20
+  }
+};
+
 var globalSceneIndex = 0;
 
 const OUTPUT_ROOT_DIR = 'processed_frames';
 const DELAY_BETWEEN_FRAMES = 66;
 
-function run(height, width, response) {
+function run(height, width, override, response) {
   console.log({height, width});
 
-  const input = INPUT_FRAME_DIRS[globalSceneIndex];
-  const processedFrameDir = `${OUTPUT_ROOT_DIR}/${input.name}-${height}x${width}`;
+  var input = EXTRA_SCENES[override];
 
-  globalSceneIndex++;
+  if (!input) {
+    globalSceneIndex++;
 
-  if (globalSceneIndex == INPUT_FRAME_DIRS.length) {
-    globalSceneIndex = 0;
+    if (globalSceneIndex == INPUT_FRAME_DIRS.length) {
+      globalSceneIndex = 0;
+    }
+
+    input = INPUT_FRAME_DIRS[globalSceneIndex];
   }
+
+  const processedFrameDir = `${OUTPUT_ROOT_DIR}/${input.name}-${height}x${width}`;
 
   fs.stat(processedFrameDir, (err, stat) => {
     if (stat) {
