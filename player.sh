@@ -19,6 +19,7 @@ afplay "$sound_file" &
 
 last_file=$(ls -1v $frame_dir | tail -n 1)
 tput clear
+tput civis
 sleep 10.27
 
 i=0
