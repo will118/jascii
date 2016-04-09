@@ -8,7 +8,7 @@ I didn't make any of the source GIFs.
 
 Explode gif to pngs (`brew install imagemagick`):
 ```
-convert blah.gif -coalesce blah_frames/%d.png
+convert source_gifs/blah.gif -coalesce blah_frames/%d.png
 ```
 
 Then add an object to `caca.js` with the info:
