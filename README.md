@@ -1,21 +1,29 @@
-##HOW TO
+# Source
 
-First we explode gif to pngs (`brew install imagemagick`):
-```
-convert snake.gif -coalesce input_frames/%d.png
-```
+http://kidmograph.tumblr.com/
 
-Then convert the pngs to ascii (you might want to mess with dimensions):
-```
-node process_png_frames.js
-```
+I didn't make any of the source GIFs.
 
-Then copy the contents of `output_frames` to a folder (say `foo`):
+##How to make ascii from gif
+
+Explode gif to pngs (`brew install imagemagick`):
 ```
-mkdir foo
-mv output_frames/* foo
+convert blah.gif -coalesce blah_frames/%d.png
 ```
 
-Then add `foo` to the array at the top of `index.js`.
+Then add an object to `caca.js` with the info:
+```
+  {
+    name: 'blah',
+    folder: 'blah_frames',
+    widthPercentage: 80,
+    gamma: 0.31
+  }
+```
 
 The server cycles through scenes with each request.
+
+When I'm testing I usually just comment all the other ones, also remember to
+delete `processed_frames/*` because it caches.
+
+It depends on `img2txt` (caca).
