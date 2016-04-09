@@ -3,7 +3,7 @@ const url = require('url');
 const caca = require('./caca');
 const fs = require('fs');
 
-const weedScript = fs.readFileSync('script.sh', 'utf8');
+const weedScript = fs.readFileSync('player.sh', 'utf8');
 
 http.createServer((request, response) => {
   response.setHeader('Transfer-Encoding', 'chunked');
@@ -14,7 +14,7 @@ http.createServer((request, response) => {
       response.write('Nice try\n');
       response.end();
     } else if (query.h && query.w) {
-      caca(query.h - 2, query.w, query.override, response);
+      caca(query.h - 2, query.w, query.override, query.compress, response);
     } else {
       response.write('Eh');
       response.end();
