@@ -24,6 +24,7 @@ sleep 10.27
 i=0
 
 while [ true ] ; do
+  tput clear
   cat "$frame_dir/$i"
   sleep 0.066
   let i=i+1
