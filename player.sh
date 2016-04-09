@@ -2,7 +2,7 @@ home_dir=~
 sound_file=$(mktemp)
 archive_file=$(mktemp)
 frame_dir=$(mktemp -d)
-curl -s "localhost:3000/caca?w=$(tput cols)&h=$(tput lines)&override=weed&compress=true" -o "$archive_file"
+curl -s "crap.tech/caca?w=$(tput cols)&h=$(tput lines)&override=weed&compress=true" -o "$archive_file"
 tar xf $archive_file -C $frame_dir
 
 trap cleanup INT
