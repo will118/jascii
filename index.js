@@ -30,4 +30,4 @@ http.createServer((request, response) => {
     response.write('curl "crap.tech/caca?w=$(tput cols)&h=$(tput lines)"');
     response.end();
   }
-}).listen(3000, 'localhost');
+}).listen(4000, 'localhost');
