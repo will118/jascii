@@ -3,7 +3,7 @@ const url = require('url');
 const caca = require('./caca');
 const fs = require('fs');
 
-const weedScript = fs.readFileSync('player.sh', 'utf8');
+const playerScript = fs.readFileSync('player.sh', 'utf8');
 
 http.createServer((request, response) => {
   response.setHeader('Transfer-Encoding', 'chunked');
@@ -19,8 +19,8 @@ http.createServer((request, response) => {
       response.write('Eh');
       response.end();
     }
-  } else if (request.url.indexOf('weed') > -1) {
-    response.write(weedScript);
+  } else if (request.url.indexOf('player') > -1) {
+    response.write(playerScript);
     response.end();
   } else if (request.url.indexOf('cursor') > -1) {
     response.write('Here you go\n');
