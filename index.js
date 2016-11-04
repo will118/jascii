@@ -1,9 +1,8 @@
 const http = require('http');
 const url = require('url');
 const caca = require('./caca');
-const fs = require('fs');
 
-const playerScript = fs.readFileSync('player.sh', 'utf8');
+const howTo = 'curl "crap.tech/caca?w=$(tput cols)&h=$(tput lines)"';
 
 http.createServer((request, response) => {
   response.setHeader('Transfer-Encoding', 'chunked');
@@ -14,20 +13,17 @@ http.createServer((request, response) => {
       response.write('Nice try\n');
       response.end();
     } else if (query.h && query.w) {
-      caca(query.h - 2, query.w, query.override, query.compress, response);
+      caca(query.h - 2, query.w, response);
     } else {
-      response.write('Eh');
+      response.write('Eh, try:\n' + howTo);
       response.end();
     }
-  } else if (request.url.indexOf('player') > -1) {
-    response.write(playerScript);
-    response.end();
   } else if (request.url.indexOf('cursor') > -1) {
     response.write('Here you go\n');
     response.write('\033[?25h');
     response.end();
   } else {
-    response.write('curl "crap.tech/caca?w=$(tput cols)&h=$(tput lines)"');
+    response.write(howTo);
     response.end();
   }
 }).listen(4000, 'localhost');

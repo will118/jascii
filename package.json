@@ -9,9 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "fstream": "^1.0.8",
-    "image-to-ascii": "*",
-    "tar": "^2.2.1"
-  }
+  "dependencies": {}
 }
