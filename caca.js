@@ -1,5 +1,6 @@
 const fs = require('fs');
 const spawn = require('child_process').spawn;
+const helpers = require('./helpers');
 
 const INPUT_FRAME_DIRS = [
   {
@@ -34,6 +35,7 @@ function run(height, width, response) {
   const processedFrameDir = `${OUTPUT_ROOT_DIR}/${input.name}-${height}x${width}`;
 
   fs.stat(processedFrameDir, (err, stat) => {
+    helpers.setupTerminal(response);
     if (stat) {
       console.log('Already have frames');
       playFrames(processedFrameDir, response);
@@ -45,11 +47,6 @@ function run(height, width, response) {
 }
 
 function playFrames(processedFrameDir, response) {
-  response.write('\033[2J');
-  response.write('\033[200B');
-  response.write('\033[2H');
-  response.write('\033[?25l');
-
   fs.readdir(processedFrameDir, (err, allFiles) => {
     if (err) throw err;
     const total = allFiles.length;
