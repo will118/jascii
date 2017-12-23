@@ -12,7 +12,12 @@ const INPUT_FRAME_DIRS = [
   {
     name: 'snake',
     folder: 'snake_frames',
-    gamma: 0.20
+    gamma: 0.15
+  },
+  {
+    name: 'thinking',
+    folder: 'thinking_frames',
+    gamma: 0.15
   }
 ];
 
