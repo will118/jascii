@@ -37,6 +37,10 @@ function run(height, width, response) {
 
   input = INPUT_FRAME_DIRS[globalSceneIndex];
 
+  // fix the sizes here.
+  const wPercent = input.widthPercentage;
+  width = wPercent ? (wPercent / 100) * width : width;
+
   const processedFrameDir = `${OUTPUT_ROOT_DIR}/${input.name}-${height}x${width}`;
 
   fs.stat(processedFrameDir, (err, stat) => {
@@ -87,13 +91,11 @@ function processFrames(height, width, input, processedFrameDir, response) {
       (function loop(files) {
         const file = files.shift();
         if (file) {
-          const wPercent = input.widthPercentage;
-          const adjustedWidth = wPercent ? (wPercent / 100) * width : width;
           const img2txt = spawn(
             'img2txt',
             [
               `--height=${height}`,
-              `--width=${adjustedWidth}`,
+              `--width=${width}`,
               '--brightness=10.0',
               '--contrast=1.0',
               `--gamma=${input.gamma}`,
