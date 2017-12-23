@@ -1,4 +1,4 @@
-##Depends on `img2txt` (caca).
+## Depends on `img2txt` (caca).
 
 # Source GIFs
 
@@ -6,7 +6,7 @@ http://kidmograph.tumblr.com/
 
 I didn't make any of them.
 
-##How to make ascii from gif
+## How to make ascii from gif
 
 Explode gif to pngs (`imagemagick`):
 ```
