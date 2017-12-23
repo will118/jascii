@@ -17,6 +17,7 @@ const INPUT_FRAME_DIRS = [
   {
     name: 'thinking',
     folder: 'thinking_frames',
+    widthPercentage: 70,
     gamma: 0.15
   }
 ];
