@@ -40,4 +40,6 @@ http.createServer((request, response) => {
     response.write(`curl "${DOMAIN}/gif?w=$(tput cols)&h=$(tput lines)"`);
     response.end();
   }
-}).listen(4000, 'localhost');
+}).listen(4000);
+
+console.log('Listening...');
