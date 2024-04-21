@@ -3,8 +3,8 @@ const url = require('url');
 const caca = require('./caca');
 const matrix = require('./matrix');
 
-// const DOMAIN = 'crap.tech';
-const DOMAIN = 'localhost:4000';
+const DOMAIN = '118.dev';
+//const DOMAIN = 'localhost:4000';
 
 function handleQuery(response, request, resource, cb) {
   const howTo = `curl "${DOMAIN}/${resource}?w=$(tput cols)&h=$(tput lines)"`;
@@ -40,6 +40,6 @@ http.createServer((request, response) => {
     response.write(`curl "${DOMAIN}/gif?w=$(tput cols)&h=$(tput lines)"`);
     response.end();
   }
-}).listen(4000);
+}).listen(3000, '127.0.0.1');
 
 console.log('Listening...');
